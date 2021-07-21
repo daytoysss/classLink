@@ -1,4 +1,5 @@
 export type HomeStackParamsList = {
-    Home: undefined,
-    Setting: undefined
-}
+  Tabbar: undefined;
+  Drawer: undefined;
+  Setting: undefined;
+};

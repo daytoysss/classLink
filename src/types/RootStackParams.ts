@@ -1,4 +1,5 @@
 export type RootStackParamList = {
-    HomeStack: undefined;
-    Auth: undefined;
+  HomeStack: undefined;
+  Auth: undefined;
+  Drawer: undefined;
 };

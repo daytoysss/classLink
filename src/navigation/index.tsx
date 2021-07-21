@@ -1,6 +1,6 @@
 import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
-import {RootStackParamList} from '../types/RootStackParams';
+import { createStackNavigator } from '@react-navigation/stack';
+import { RootStackParamList } from '../types/RootStackParams';
 import Home from './Home';
 const RootStack = createStackNavigator<RootStackParamList>();
 
