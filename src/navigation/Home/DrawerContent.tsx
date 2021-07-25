@@ -4,8 +4,8 @@ import { SafeAreaView, Text, TouchableOpacity } from 'react-native';
 const Screen: React.FC<any> = ({ navigation }) => {
   return (
     <SafeAreaView>
-      <TouchableOpacity>
-        <Text>asd</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+        <Text>Log out</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
