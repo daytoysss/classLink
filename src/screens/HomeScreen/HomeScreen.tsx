@@ -17,26 +17,15 @@ type Props = {
 const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const RootNavigation = useNavigation();
   return (
-    <SafeAreaView
-      style={{
-        backgroundColor: colors.background,
-        flex: 1,
-      }}>
-      <Header navigation={RootNavigation} title="ClassLink" />
+    <SafeAreaView style={styles.container}>
+      <Header navigation={navigation} title="ClassLink" isBackable={false} />
       <TouchableOpacity
-        style={{
-          backgroundColor: colors.buttonNewClass,
-          borderRadius: 30,
-          borderWidth: 1,
-          borderColor: colors.black,
-          marginHorizontal: 50,
-          paddingHorizontal: 20,
-          marginTop: 50,
-          flexDirection: 'row',
-          justifyContent: 'space-around',
-          alignItems: 'center',
-          //   paddingVertical: 10,
-        }}>
+        style={styles.buttonCreate}
+        onPress={() =>
+          RootNavigation.navigate('Main', {
+            screen: 'CreateClass',
+          })
+        }>
         <Text style={[styles.text, { fontSize: 80 }]}>+</Text>
         <Text style={[styles.text, { fontSize: 40 }]}>New class</Text>
       </TouchableOpacity>
@@ -45,6 +34,22 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: colors.background,
+    flex: 1,
+  },
+  buttonCreate: {
+    backgroundColor: colors.buttonNewClass,
+    borderRadius: 30,
+    borderWidth: 1,
+    borderColor: colors.black,
+    marginHorizontal: 50,
+    paddingHorizontal: 20,
+    marginTop: 50,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
   text: {
     color: colors.white,
   },
