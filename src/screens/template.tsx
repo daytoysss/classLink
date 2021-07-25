@@ -1,18 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, View, Text, TouchableOpacity } from 'react-native';
+import {
+  SafeAreaView,
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+} from 'react-native';
 
 type Props = {
-  navigation: undefined;
+  navigation: any;
 };
 
 const Screen: React.FC<Props> = ({ navigation }) => {
   return (
     <SafeAreaView>
       <TouchableOpacity>
-        <Text>asd</Text>
+        <Text>hi</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({});
 
 export default Screen;
