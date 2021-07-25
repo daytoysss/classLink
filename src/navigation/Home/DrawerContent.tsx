@@ -4,17 +4,32 @@ import { colors } from '../../utils/constants';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useAppDispatch } from '../../redux-toolkit/hook';
 import { setLoginState } from '../../redux-toolkit/authSlice';
+import { DrawerActions, useNavigation } from '@react-navigation/native';
 
 const Screen: React.FC<any> = ({ navigation }) => {
   const dispatch = useAppDispatch();
+  const RootNavigation = useNavigation();
   const handleLogout = async () => {
     dispatch(setLoginState(false));
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <AntDesign name="close" style={styles.buttonClose} />
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => RootNavigation.dispatch(DrawerActions.closeDrawer())}
+        style={styles.closeSection}>
+        <AntDesign name="close" style={styles.buttonClose} />
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          RootNavigation.dispatch(DrawerActions.closeDrawer());
+          RootNavigation.navigate('Main', {
+            screen: 'Tabbar',
+            params: {
+              screen: 'Home',
+            },
+          });
+        }}>
         <Text style={styles.buttonName}>Home</Text>
       </TouchableOpacity>
       <TouchableOpacity style={{ alignItems: 'center' }}>
@@ -37,11 +52,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  closeSection: {
+    alignSelf: 'flex-end',
+    fontWeight: 'bold',
+  },
   buttonClose: {
     fontSize: 30,
-    alignSelf: 'flex-end',
     marginVertical: 20,
-    fontWeight: 'bold',
   },
   buttonName: {
     fontWeight: 'bold',
