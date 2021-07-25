@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { SafeAreaView, View, Text, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { DrawerActions } from '@react-navigation/native';
 import Feather from 'react-native-vector-icons/Feather';
 
 type Props = {
-  navigation: undefined;
+  navigation: any;
 };
 
 const Header: React.FC<Props> = ({ navigation }) => {
@@ -18,6 +19,9 @@ const Header: React.FC<Props> = ({ navigation }) => {
       }}>
       <Text>ClassLink</Text>
       <TouchableOpacity
+        onPress={() => {
+          navigation.dispatch(DrawerActions.openDrawer());
+        }}
         style={{
           position: 'absolute',
           left: 10,
