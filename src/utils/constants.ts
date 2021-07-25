@@ -9,4 +9,5 @@ export const colors = {
   bookingBgc: '#c5e181',
   summaryBgc: '#f27177',
   buttonLoginBgc: '#6699cc',
+  pinkBgc: '#ff94b1',
 };
