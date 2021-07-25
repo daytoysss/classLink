@@ -5,6 +5,8 @@ import TabNavigator from './TabNavigator';
 import Setting from '../../screens/Setting';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { TabParams } from '../../types/TabParams';
+import CreateClass from '../../screens/CreateClass';
+import ClassDetail from '../../screens/ClassDetail';
 
 type Props = {
   navigation: BottomTabNavigationProp<TabParams>;
@@ -20,6 +22,8 @@ const Home: React.FC<Props> = ({ navigation }) => {
       }}>
       <HomeStack.Screen name="Tabbar" component={TabNavigator} />
       <HomeStack.Screen name="Setting" component={Setting} />
+      <HomeStack.Screen name="CreateClass" component={CreateClass} />
+      <HomeStack.Screen name="ClassDetail" component={ClassDetail} />
     </HomeStack.Navigator>
   );
 };
