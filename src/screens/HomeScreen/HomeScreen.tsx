@@ -25,7 +25,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
       <Header navigation={RootNavigation} title="ClassLink" />
       <TouchableOpacity
         style={{
-          backgroundColor: colors.buttonBgc,
+          backgroundColor: colors.buttonNewClass,
           borderRadius: 30,
           borderWidth: 1,
           borderColor: colors.black,
