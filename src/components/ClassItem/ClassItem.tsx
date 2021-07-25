@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import {
   SafeAreaView,
@@ -19,8 +20,18 @@ type Props = {
 };
 
 const Screen: React.FC<Props> = ({ item }) => {
+  const RootNavigation = useNavigation();
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      onPress={() =>
+        RootNavigation.navigate('Main', {
+          screen: 'ClassDetail',
+          params: {
+            item,
+          },
+        })
+      }
+      style={styles.container}>
       <View
         style={[
           styles.row,
@@ -50,7 +61,7 @@ const Screen: React.FC<Props> = ({ item }) => {
           <Text>: {item.grade}</Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

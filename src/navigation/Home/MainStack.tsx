@@ -2,11 +2,13 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { HomeStackParamsList } from '../../types/HomeParamsList';
 import TabNavigator from './TabNavigator';
-import Setting from '../../screens/Setting';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { TabParams } from '../../types/TabParams';
 import CreateClass from '../../screens/CreateClass';
 import ClassDetail from '../../screens/ClassDetail';
+import Homework from '../../screens/Homework';
+import CreateHomework from '../../screens/CreateHomework';
+import Report from '../../screens/Report';
 
 type Props = {
   navigation: BottomTabNavigationProp<TabParams>;
@@ -21,9 +23,11 @@ const Home: React.FC<Props> = ({ navigation }) => {
         headerShown: false,
       }}>
       <HomeStack.Screen name="Tabbar" component={TabNavigator} />
-      <HomeStack.Screen name="Setting" component={Setting} />
       <HomeStack.Screen name="CreateClass" component={CreateClass} />
       <HomeStack.Screen name="ClassDetail" component={ClassDetail} />
+      <HomeStack.Screen name="Homework" component={Homework} />
+      <HomeStack.Screen name="CreateHomework" component={CreateHomework} />
+      <HomeStack.Screen name="Report" component={Report} />
     </HomeStack.Navigator>
   );
 };

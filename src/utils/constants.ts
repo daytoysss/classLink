@@ -6,12 +6,14 @@ export const colors = {
   white: '#fff',
   black: '#000',
   buttonNewClass: '#fb7299',
-  homeBgc: '#f2da94',
-  classroomBgc: '#c882ea',
-  bookingBgc: '#c5e181',
-  summaryBgc: '#f27177',
+  homeBgc: '#ffe195',
+  classroomBgc: '#d589eb',
+  bookingBgc: '#d4e784',
+  summaryBgc: '#ff7979',
   buttonLoginBgc: '#6699cc',
   pinkBgc: '#ff94b1',
+  completed: '#49ce7d',
+  incompleted: '#f32328',
 };
 const { width, height } = Dimensions.get('screen');
 
