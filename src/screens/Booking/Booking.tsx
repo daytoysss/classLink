@@ -9,7 +9,7 @@ const Screen: React.FC<Props> = ({ navigation }) => {
   return (
     <SafeAreaView>
       <TouchableOpacity>
-        <Text>asd</Text>
+        <Text>Booking</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
