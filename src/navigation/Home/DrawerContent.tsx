@@ -32,7 +32,12 @@ const Screen: React.FC<any> = ({ navigation }) => {
         }}>
         <Text style={styles.buttonName}>Home</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={{ alignItems: 'center' }}>
+      <TouchableOpacity
+        onPress={() => {
+          RootNavigation.dispatch(DrawerActions.closeDrawer());
+          RootNavigation.navigate('Appointment');
+        }}
+        style={{ alignItems: 'center' }}>
         <Text style={styles.buttonName}>View</Text>
         <Text style={styles.buttonName}>Appointment</Text>
       </TouchableOpacity>

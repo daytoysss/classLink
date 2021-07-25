@@ -5,7 +5,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import { colors } from '../../utils/constants';
 
 type Props = {
-  navigation: any;
+  navigation?: any;
   title: string;
   isBackable: boolean;
 };
@@ -18,7 +18,7 @@ const Header: React.FC<Props> = ({ navigation, title, isBackable }) => {
       {isBackable ? (
         <TouchableOpacity
           onPress={() => {
-            navigation.goBack();
+            navigation ? navigation.goBack() : RootNavigation.goBack();
           }}
           style={styles.button}>
           <Feather name="arrow-left" style={styles.icon} />

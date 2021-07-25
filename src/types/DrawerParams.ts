@@ -1,4 +1,4 @@
 export type DrawerParams = {
-  Logout: undefined;
+  Appointment: undefined;
   Main: undefined;
 };
