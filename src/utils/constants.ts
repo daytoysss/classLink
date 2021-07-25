@@ -1,3 +1,5 @@
+import { Dimensions } from 'react-native';
+
 export const colors = {
   background: '#bcdcf7',
   title: '#cc0065',
@@ -11,3 +13,7 @@ export const colors = {
   buttonLoginBgc: '#6699cc',
   pinkBgc: '#ff94b1',
 };
+const { width, height } = Dimensions.get('screen');
+
+export const ScreenWidth = width;
+export const ScreenHeight = height;
