@@ -114,7 +114,7 @@ const Booking: React.FC<Props> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.background,
+    backgroundColor: colors.bookingBgc,
     flex: 1,
   },
   buttonCreate: {

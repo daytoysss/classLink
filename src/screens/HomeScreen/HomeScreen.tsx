@@ -18,7 +18,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const RootNavigation = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
-      <Header navigation={navigation} title="ClassLink" isBackable={false} />
+      <Header navigation={navigation} title="ClassLink" isBackable={false}/>
       <TouchableOpacity
         style={styles.buttonCreate}
         onPress={() =>
@@ -35,7 +35,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.background,
+    backgroundColor: colors.homeBgc,
     flex: 1,
   },
   buttonCreate: {

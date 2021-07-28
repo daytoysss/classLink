@@ -58,7 +58,7 @@ const Screen: React.FC<Props> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.background,
+    backgroundColor: colors.classroomBgc,
     flex: 1,
   },
   classContainer: {

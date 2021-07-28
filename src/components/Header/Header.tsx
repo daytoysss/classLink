@@ -10,7 +10,7 @@ type Props = {
   isBackable: boolean;
 };
 
-const Header: React.FC<Props> = ({ navigation, title, isBackable }) => {
+const Header: React.FC<Props> = ({ navigation, title, isBackable}) => {
   const RootNavigation = useNavigation();
   return (
     <View style={styles.container}>
@@ -43,7 +43,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     position: 'relative',
     height: 50,
-    backgroundColor: colors.background,
   },
   title: {
     fontWeight: 'bold',

@@ -97,7 +97,7 @@ const Summary: React.FC<Props> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.background,
+    backgroundColor: colors.summaryBgc,
     flex: 1,
   },
   buttonCreate: {
