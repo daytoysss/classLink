@@ -1,5 +1,7 @@
 import { StackNavigationProp } from '@react-navigation/stack';
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { Alert, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import {
   SafeAreaView,
   View,
@@ -12,7 +14,7 @@ import {
 import { setLoginState } from '../../redux-toolkit/authSlice';
 import { useAppDispatch } from '../../redux-toolkit/hook';
 import { RootStackParamList } from '../../types/RootStackParams';
-import { colors } from '../../utils/constants';
+import { baseURL, colors } from '../../utils/constants';
 
 type LoginPropType = StackNavigationProp<RootStackParamList, 'Login'>;
 
@@ -21,25 +23,43 @@ type Props = {
 };
 
 const Screen: React.FC<Props> = ({ navigation }) => {
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
   const dispatch = useAppDispatch();
   const handleLogin = async () => {
-    dispatch(setLoginState(true));
+    console.log(username, password)
+    try {
+      const res = await axios.post(baseURL + 'api/auth/login', {
+        username,
+        password,
+      })
+      if (res.data.status === 'failed') {
+        Alert.alert('ClassLink', res.data.message)
+      } else {
+        dispatch(setLoginState(true));
+      }
+    } catch (err) {
+      console.log(err)
+    }
+    // dispatch(setLoginState(true));
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Welcome to</Text>
       <Text style={styles.title}>ClassLink</Text>
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Username</Text>
-        <TextInput style={styles.input} />
+        <TextInput value={username} onChangeText={setUsername} style={styles.input} />
         <Text style={styles.label}>Password</Text>
-        <TextInput style={styles.input} />
+        <TextInput value={password} onChangeText={setPassword} style={styles.input} />
       </View>
       <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
         <Text style={styles.loginText}>Login</Text>
       </TouchableOpacity>
     </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 
