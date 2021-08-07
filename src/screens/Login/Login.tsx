@@ -12,7 +12,7 @@ import {
   Dimensions,
 } from 'react-native';
 import { setLoginState } from '../../redux-toolkit/authSlice';
-import { useAppDispatch } from '../../redux-toolkit/hook';
+import { useAppDispatch, useAppSelector } from '../../redux-toolkit/hook';
 import { RootStackParamList } from '../../types/RootStackParams';
 import { baseURL, colors } from '../../utils/constants';
 
@@ -26,10 +26,11 @@ const Screen: React.FC<Props> = ({ navigation }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const dispatch = useAppDispatch();
+  const role = useAppSelector(state => state.role.role)
   const handleLogin = async () => {
     console.log(username, password)
     try {
-      const res = await axios.post(baseURL + 'api/auth/login', {
+      const res = await axios.post(`${baseURL}api/auth/${role === 'teacher' ? 'loginAdmin' : 'login'}`, {
         username,
         password,
       })
