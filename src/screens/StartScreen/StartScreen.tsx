@@ -1,3 +1,4 @@
+import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
 import {
   SafeAreaView,
@@ -5,22 +6,64 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
+  Dimensions,
 } from 'react-native';
+import { useAppDispatch } from '../../redux-toolkit/hook';
+import { setRole } from '../../redux-toolkit/roleSlice';
+import { RootStackParamList } from '../../types/RootStackParams';
+import { colors } from '../../utils/constants';
+
+type StartScreenPropType = StackNavigationProp<RootStackParamList, 'StartScreen'>;
 
 type Props = {
-  navigation: any;
+  navigation: StartScreenPropType;
 };
 
 const Screen: React.FC<Props> = ({ navigation }) => {
+    const dispatch = useAppDispatch()
   return (
-    <SafeAreaView>
-      <TouchableOpacity>
-        <Text>hi</Text>
-      </TouchableOpacity>
+    <SafeAreaView style={styles.container}>
+    <Text style={styles.title}>Welcome to</Text>
+    <Text style={styles.title}>ClassLink</Text>
+        <TouchableOpacity style={styles.buttonText} onPress={() => {
+            dispatch(setRole('teacher'))
+            navigation.navigate('Login')
+        }}>
+            <Text>I am a teacher</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonText} onPress={() => {
+            dispatch(setRole('parent'))
+            navigation.navigate('Login')
+        }}>
+            <Text>I am a parent</Text>
+        </TouchableOpacity>
     </SafeAreaView>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: colors.background,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 50,
+    },
+    title: {
+      fontSize: 50,
+      color: colors.title,
+    },
+    buttonText: {
+        width: Dimensions.get('screen').width - 100,
+        marginHorizontal: 50,
+        marginVertical: 20,
+        paddingHorizontal: 10,
+        paddingVertical: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white',
+        borderRadius: 100
+    }
+});
 
 export default Screen;
