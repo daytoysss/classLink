@@ -10,9 +10,10 @@ import {
 import { colors } from '../../utils/constants';
 
 type ClassItemType = {
-  id: number;
+  class_id: number;
+  grade_id: number;
   className: string;
-  grade: string;
+  gradeName: string;
 };
 
 type Props = {
@@ -58,7 +59,7 @@ const Screen: React.FC<Props> = ({ item }) => {
           <Text>Grade</Text>
         </View>
         <View style={styles.itemTitle}>
-          <Text>: {item.grade}</Text>
+          <Text>: {item.gradeName}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -70,7 +71,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderWidth: 1,
     borderColor: colors.black,
-    flex: 1,
+    height: 100,
   },
   row: {
     flexDirection: 'row',
