@@ -44,7 +44,7 @@ const Screen: React.FC<Props> = ({ navigation }) => {
       } else {
         const access_token = res.data.data.access_token;
         axios.defaults.headers['Authorization'] = 'Bearer ' + access_token;
-        await AsyncStorage.setItem('access_token', access_token);
+        await AsyncStorage.setItem('userData', JSON.stringify(res.data.data));
         dispatch(setUser(res.data.data));
         dispatch(setLoginState(true));
       }
