@@ -20,4 +20,5 @@ const { width, height } = Dimensions.get('screen');
 export const ScreenWidth = width;
 export const ScreenHeight = height;
 
-export const baseURL = 'https://classlink-thai.herokuapp.com/'
+// export const baseURL = 'https://classlink-thai.herokuapp.com/api/'
+export const baseURL = 'https://c53d88791259.ngrok.io/api/';
