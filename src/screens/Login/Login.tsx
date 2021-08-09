@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StackNavigationProp } from '@react-navigation/stack';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
@@ -13,6 +14,7 @@ import {
 } from 'react-native';
 import { setLoginState } from '../../redux-toolkit/authSlice';
 import { useAppDispatch, useAppSelector } from '../../redux-toolkit/hook';
+import { setUser } from '../../redux-toolkit/userSlice';
 import { RootStackParamList } from '../../types/RootStackParams';
 import { baseURL, colors } from '../../utils/constants';
 
@@ -23,43 +25,58 @@ type Props = {
 };
 
 const Screen: React.FC<Props> = ({ navigation }) => {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const dispatch = useAppDispatch();
-  const role = useAppSelector(state => state.role.role)
+  const role = useAppSelector(state => state.role.role);
   const handleLogin = async () => {
-    console.log(username, password)
+    console.log(username, password);
     try {
-      const res = await axios.post(`${baseURL}api/auth/${role === 'teacher' ? 'loginAdmin' : 'login'}`, {
-        username,
-        password,
-      })
+      const res = await axios.post(
+        `${baseURL}auth/${role === 'teacher' ? 'loginAdmin' : 'login'}`,
+        {
+          username,
+          password,
+        },
+      );
       if (res.data.status === 'failed') {
-        Alert.alert('ClassLink', res.data.message)
+        Alert.alert('ClassLink', res.data.message);
       } else {
+        const access_token = res.data.data.access_token;
+        axios.defaults.headers['Authorization'] = 'Bearer ' + access_token;
+        await AsyncStorage.setItem('access_token', access_token);
+        dispatch(setUser(res.data.data));
         dispatch(setLoginState(true));
       }
     } catch (err) {
-      console.log(err)
+      Alert.alert('ClassLink', JSON.stringify(err.response));
     }
-    // dispatch(setLoginState(true));
   };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Welcome to</Text>
-      <Text style={styles.title}>ClassLink</Text>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Username</Text>
-        <TextInput value={username} onChangeText={setUsername} style={styles.input} />
-        <Text style={styles.label}>Password</Text>
-        <TextInput value={password} onChangeText={setPassword} style={styles.input} />
-      </View>
-      <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
-        <Text style={styles.loginText}>Login</Text>
-      </TouchableOpacity>
-    </SafeAreaView>
+        <Text style={styles.title}>Welcome to</Text>
+        <Text style={styles.title}>ClassLink</Text>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Username</Text>
+          <TextInput
+            value={username}
+            onChangeText={setUsername}
+            style={styles.input}
+          />
+          <Text style={styles.label}>Password</Text>
+          <TextInput
+            value={password}
+            secureTextEntry={true}
+            onChangeText={setPassword}
+            style={styles.input}
+          />
+        </View>
+        <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
+          <Text style={styles.loginText}>Login</Text>
+        </TouchableOpacity>
+      </SafeAreaView>
     </TouchableWithoutFeedback>
   );
 };

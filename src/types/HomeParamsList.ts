@@ -2,6 +2,7 @@ import { RouteProp } from '@react-navigation/native';
 
 export type HomeStackParamsList = {
   Tabbar: undefined;
+  EventDetail: { item: any };
   Drawer: undefined;
   Setting: undefined;
   CreateClass: undefined;
