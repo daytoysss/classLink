@@ -3,7 +3,6 @@ import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { colors } from '../../utils/constants';
 
 const CustomTabbar = ({ state, descriptors, navigation }) => {
-  console.log(state, descriptors);
   return (
     <View
       style={{
