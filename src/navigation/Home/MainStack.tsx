@@ -9,6 +9,7 @@ import ClassDetail from '../../screens/ClassDetail';
 import Homework from '../../screens/Homework';
 import CreateHomework from '../../screens/CreateHomework';
 import Report from '../../screens/Report';
+import EventDetail from '../../screens/EventDetail';
 
 type Props = {
   navigation: BottomTabNavigationProp<TabParams>;
@@ -28,6 +29,7 @@ const Home: React.FC<Props> = ({ navigation }) => {
       <HomeStack.Screen name="Homework" component={Homework} />
       <HomeStack.Screen name="CreateHomework" component={CreateHomework} />
       <HomeStack.Screen name="Report" component={Report} />
+      <HomeStack.Screen name="EventDetail" component={EventDetail} />
     </HomeStack.Navigator>
   );
 };
