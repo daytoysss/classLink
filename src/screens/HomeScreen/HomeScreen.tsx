@@ -32,18 +32,19 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const RootNavigation = useNavigation();
   const role = useAppSelector(state => state.role.role);
   const userInfor = useAppSelector(state => state.user.info);
+  console.log(userInfor);
   const [loading, setLoading] = useState(true);
   const [posts, setPosts] = useState([]);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
 
   const handleCreatePost = async () => {
-    if (!title || !content) {
+    if (!title || !content || !userInfor.user_id) {
       Alert.alert('ClassLink', 'Both title and content are required!');
     } else {
       try {
         const res = await axios.post(baseURL + 'posts', {
-          user_id: userInfor.user_id ?? '',
+          user_id: userInfor.user_id,
           post_title: title,
           post_content: content,
         });
@@ -64,7 +65,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const getData = async () => {
     try {
       const res = await axios.get(baseURL + 'posts');
-      console.log(res.data);
+      // console.log(res.data);
       setPosts(res.data);
     } catch (err) {
       console.log(err);
@@ -159,17 +160,16 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
             <Text>No posts!</Text>
           ) : (
             <FlatList
-              keyExtractor={item => item?.id ?? ''}
+              keyExtractor={item => item?.post_id ?? ''}
               data={posts}
               extraData={posts}
               renderItem={({ item }: any) => {
-                console.log(item);
                 return (
                   <TouchableOpacity
                     onPress={() =>
                       RootNavigation.navigate('EventDetail', { item })
                     }
-                    // key={post.post_id}
+                    key={item.post_id}
                     style={{
                       backgroundColor: colors.white,
                       borderRadius: 10,
