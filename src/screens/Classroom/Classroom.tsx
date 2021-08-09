@@ -35,7 +35,14 @@ const Screen: React.FC<Props> = ({ navigation }) => {
     try {
       const res = await axios.get(baseURL + 'grades/');
       // console.log(res.data);
-      setGrade(res.data);
+      setGrade([
+        {
+          id: 999,
+          grade_id: 999,
+          name: 'Please select a grade',
+        },
+        ...res.data,
+      ]);
     } catch (err) {
       Alert.alert('ClassLink', JSON.stringify(err.response));
     } finally {
@@ -104,13 +111,22 @@ const Screen: React.FC<Props> = ({ navigation }) => {
                     console.log('change', itemIndex, itemValue);
                     setSelectedGrade(itemValue);
                   }}>
-                  {grade.map(i => (
-                    <Picker.Item
-                      key={i.grade_id}
-                      label={i.name}
-                      value={i.name}
-                    />
-                  ))}
+                  {grade.map((i, ind) =>
+                    ind === 0 ? (
+                      <Picker.Item
+                        enabled={false}
+                        key={i.grade_id}
+                        label={i.name}
+                        value={i.name}
+                      />
+                    ) : (
+                      <Picker.Item
+                        key={i.grade_id}
+                        label={i.name}
+                        value={i.name}
+                      />
+                    ),
+                  )}
                 </Picker>
               ) : (
                 <Text>No grades!</Text>

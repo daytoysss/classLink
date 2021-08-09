@@ -29,7 +29,7 @@ type Props = {
 };
 
 const Screen: React.FC<Props> = ({ navigation }) => {
-  const [grade, setGrade] = useState([,]);
+  const [grade, setGrade] = useState([]);
   const [className, setClassName] = useState('');
   const [selectedLanguage, setSelectedLanguage] = useState('');
 
