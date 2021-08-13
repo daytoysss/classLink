@@ -1,4 +1,4 @@
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import {
@@ -14,18 +14,27 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
+  FlatList,
 } from 'react-native';
 import Header from '../../components/Header';
 import { HomeStackRouteProps } from '../../types/HomeParamsList';
-import { baseURL, colors, ScreenWidth } from '../../utils/constants';
+import {
+  baseURL,
+  colors,
+  ScreenHeight,
+  ScreenWidth,
+} from '../../utils/constants';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { useAppSelector } from '../../redux-toolkit/hook';
 
 type Props = {
   navigation: any;
 };
 
 const Screen: React.FC<Props> = ({ navigation }) => {
+  const RootNavigation = useNavigation();
   const route = useRoute<HomeStackRouteProps<'ClassDetail'>>();
+  const role = useAppSelector(state => state.role.role);
   const { item } = route.params;
   const [loadingHomework, setLoadingHomework] = useState(true);
   const [loadingStudent, setLoadingStudent] = useState(true);
@@ -37,6 +46,8 @@ const Screen: React.FC<Props> = ({ navigation }) => {
   const [showAddHomeWorkModal, setShowAddHomeworkModal] = useState(false);
   const [hwTitle, setHwTitle] = useState('');
   const [hwDes, setHwDes] = useState('');
+
+  const [allStudent, setAllStudent] = useState([]);
   const [showAddStudentModal, setShowAddStudentModal] = useState(false);
 
   useEffect(() => {
@@ -49,6 +60,28 @@ const Screen: React.FC<Props> = ({ navigation }) => {
     setLoadingStudent(true);
     getHomeworkByClassID(item.class_id);
     getStudensByClassID(item.class_id);
+  };
+
+  const getAllStudents = async () => {
+    try {
+      const res = await axios.get(`${baseURL}users/parent/allParents`);
+      const { data } = res;
+      setAllStudent(
+        data.map(i => {
+          return {
+            ...i,
+            alreadySelected: student.find(st => st.user_id === i.user_id)
+              ? true
+              : false,
+            selected: student.find(st => st.user_id === i.user_id)
+              ? true
+              : false,
+          };
+        }),
+      );
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const getHomeworkByClassID = async classID => {
@@ -81,7 +114,11 @@ const Screen: React.FC<Props> = ({ navigation }) => {
 
   useEffect(() => {
     if (item.class_id) {
-      refreshAll();
+      if (role === 'teacher') refreshAll();
+      else {
+        getHomeworkByClassID(item.class_id);
+        setLoading(false);
+      }
     }
   }, []);
 
@@ -106,6 +143,28 @@ const Screen: React.FC<Props> = ({ navigation }) => {
         setHwDes('');
         await refreshAll();
       }
+    }
+  };
+
+  const handleAddStudent = async () => {
+    const selectedStudents = allStudent.filter(
+      i => i.selected && !i.alreadySelected,
+    );
+    try {
+      const res = await axios.post(
+        `${baseURL}classes/${item.class_id}/students`,
+        {
+          ids: selectedStudents.map(i => i.user_id),
+        },
+      );
+      if (res.data.status !== 'success') {
+        Alert.alert('ClassLink', res.data.message);
+      } else {
+        setShowAddStudentModal(false);
+        await refreshAll();
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -189,9 +248,117 @@ const Screen: React.FC<Props> = ({ navigation }) => {
     );
   };
 
-  return (
+  const renderAddStudent = () => {
+    return (
+      <Modal
+        visible={showAddStudentModal}
+        transparent={true}
+        animationType="fade">
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'rgba(255,255,255,0.5)',
+          }}>
+          <TouchableWithoutFeedback
+            onPress={Keyboard.dismiss}
+            style={{
+              width: ScreenWidth - 40,
+              height: ScreenHeight - 100,
+            }}>
+            <View
+              style={{
+                width: ScreenWidth - 40,
+                height: ScreenHeight - 100,
+                padding: 20,
+                backgroundColor: colors.white,
+                justifyContent: 'space-between',
+              }}>
+              <TouchableOpacity
+                onPress={() => {
+                  setShowAddStudentModal(false);
+                  setAllStudent([]);
+                }}>
+                <AntDesign name="close" size={30} />
+              </TouchableOpacity>
+              <FlatList
+                numColumns={2}
+                keyExtractor={item => item?.user_id?.toString() ?? ''}
+                data={allStudent}
+                extraData={allStudent}
+                renderItem={({ item }) => {
+                  return item.alreadySelected ? (
+                    <View
+                      style={{
+                        backgroundColor: 'green',
+                        flex: 1,
+                        borderColor: colors.black,
+                        borderWidth: 0.5,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        paddingVertical: 10,
+                      }}>
+                      <Text>{item?.username ?? ''}</Text>
+                    </View>
+                  ) : (
+                    <TouchableOpacity
+                      onPress={() => {
+                        const isSelected = item.selected;
+                        setAllStudent(student =>
+                          student.map(st => {
+                            return st.user_id === item.user_id
+                              ? {
+                                  ...st,
+                                  selected: !isSelected,
+                                }
+                              : st;
+                          }),
+                        );
+                      }}
+                      style={{
+                        backgroundColor: item.selected ? 'green' : 'white',
+                        flex: 1,
+                        borderColor: colors.black,
+                        borderWidth: 0.5,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        paddingVertical: 10,
+                      }}>
+                      <Text>{item?.username ?? ''}</Text>
+                    </TouchableOpacity>
+                  );
+                }}
+                contentContainerStyle={{
+                  marginVertical: 10,
+                  paddingHorizontal: 10,
+                  flexGrow: 1,
+                }}
+              />
+              <TouchableOpacity
+                onPress={handleAddStudent}
+                style={{
+                  marginHorizontal: 30,
+                  paddingHorizontal: 30,
+                  paddingVertical: 10,
+                  alignSelf: 'center',
+                  borderRadius: 20,
+                  borderWidth: 1,
+                  backgroundColor: colors.buttonNewClass,
+                }}>
+                <Text>Add</Text>
+              </TouchableOpacity>
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
+      </Modal>
+    );
+  };
+
+  return role === 'teacher' ? (
     <>
       {renderAddHomework()}
+      {renderAddStudent()}
       <SafeAreaView style={styles.container}>
         <Header
           navigation={navigation}
@@ -202,10 +369,12 @@ const Screen: React.FC<Props> = ({ navigation }) => {
           <ActivityIndicator size="large" color="black" />
         ) : (
           <ScrollView
-            style={{
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{
               marginHorizontal: 20,
               paddingVertical: 20,
               flexGrow: 1,
+              paddingBottom: 50,
             }}>
             <View
               style={{
@@ -216,6 +385,7 @@ const Screen: React.FC<Props> = ({ navigation }) => {
                   fontSize: 25,
                   fontWeight: 'bold',
                   alignSelf: 'center',
+                  marginBottom: 20,
                 }}>
                 Homeworks
               </Text>
@@ -224,12 +394,34 @@ const Screen: React.FC<Props> = ({ navigation }) => {
               ) : (
                 homwork.map((i, ind) => {
                   return (
-                    <View key={i.homework_id}>
-                      <Text style={{ fontWeight: 'bold' }}>#{ind + 1}</Text>
+                    <TouchableOpacity
+                      onPress={() =>
+                        RootNavigation.navigate('Homework', {
+                          homework: i,
+                          student,
+                        })
+                      }
+                      key={i.homework_id}
+                      style={{
+                        borderWidth: 0.5,
+                        borderColor: colors.black,
+                        padding: 20,
+                      }}>
+                      <Text
+                        style={{
+                          fontWeight: 'bold',
+                          paddingBottom: 20,
+                          borderBottomWidth: 0.5,
+                          borderColor: colors.black,
+                        }}>
+                        Number #{ind + 1}{' '}
+                        {role === 'teacher' && `(click to assign to student)`}
+                      </Text>
                       <View
                         style={{
                           justifyContent: 'space-between',
                           flexDirection: 'row',
+                          paddingTop: 20,
                         }}>
                         <Text>Title: </Text>
                         <Text>{i.homework_title}</Text>
@@ -242,7 +434,7 @@ const Screen: React.FC<Props> = ({ navigation }) => {
                         <Text>Description: </Text>
                         <Text>{i.homework_description}</Text>
                       </View>
-                    </View>
+                    </TouchableOpacity>
                   );
                 })
               )}
@@ -284,7 +476,7 @@ const Screen: React.FC<Props> = ({ navigation }) => {
                         flexDirection: 'row',
                         justifyContent: 'space-between',
                       }}>
-                      <Text style={{ fontSize: 20 }}>Student Name: </Text>
+                      <Text style={{ fontSize: 20 }}>Student's name: </Text>
                       <Text style={{ fontSize: 20 }}>{i.username}</Text>
                     </View>
                   );
@@ -292,7 +484,10 @@ const Screen: React.FC<Props> = ({ navigation }) => {
               )}
             </View>
             <TouchableOpacity
-              onPress={() => setShowAddStudentModal(true)}
+              onPress={async () => {
+                setShowAddStudentModal(true);
+                await getAllStudents();
+              }}
               style={{
                 marginHorizontal: 50,
                 marginVertical: 20,
@@ -307,6 +502,92 @@ const Screen: React.FC<Props> = ({ navigation }) => {
                 Add student to this class
               </Text>
             </TouchableOpacity>
+          </ScrollView>
+        )}
+      </SafeAreaView>
+    </>
+  ) : (
+    <>
+      <SafeAreaView style={styles.container}>
+        <Header
+          navigation={navigation}
+          title={item.name ?? ''}
+          isBackable={true}
+        />
+        {loading ? (
+          <ActivityIndicator size="large" color="black" />
+        ) : (
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{
+              marginHorizontal: 20,
+              paddingVertical: 20,
+              flexGrow: 1,
+              paddingBottom: 50,
+            }}>
+            <View
+              style={{
+                flexGrow: 1,
+              }}>
+              <Text
+                style={{
+                  fontSize: 25,
+                  fontWeight: 'bold',
+                  alignSelf: 'center',
+                  marginBottom: 20,
+                }}>
+                Homeworks
+              </Text>
+              {homwork.length === 0 ? (
+                <Text>No homework!</Text>
+              ) : (
+                homwork.map((i, ind) => {
+                  return (
+                    <TouchableOpacity
+                      onPress={() =>
+                        RootNavigation.navigate('Homework', {
+                          homework: i,
+                          student,
+                        })
+                      }
+                      key={i.homework_id}
+                      style={{
+                        borderWidth: 0.5,
+                        borderColor: colors.black,
+                        padding: 20,
+                      }}>
+                      <Text
+                        style={{
+                          fontWeight: 'bold',
+                          paddingBottom: 20,
+                          borderBottomWidth: 0.5,
+                          borderColor: colors.black,
+                        }}>
+                        Number #{ind + 1}{' '}
+                        {role === 'teacher' && `(click to assign to student)`}
+                      </Text>
+                      <View
+                        style={{
+                          justifyContent: 'space-between',
+                          flexDirection: 'row',
+                          paddingTop: 20,
+                        }}>
+                        <Text>Title: </Text>
+                        <Text>{i.homework_title}</Text>
+                      </View>
+                      <View
+                        style={{
+                          justifyContent: 'space-between',
+                          flexDirection: 'row',
+                        }}>
+                        <Text>Description: </Text>
+                        <Text>{i.homework_description}</Text>
+                      </View>
+                    </TouchableOpacity>
+                  );
+                })
+              )}
+            </View>
           </ScrollView>
         )}
       </SafeAreaView>

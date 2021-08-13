@@ -1,4 +1,4 @@
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
 import {
@@ -15,8 +15,10 @@ import {
   HomeStackParamsList,
   HomeStackRouteProps,
 } from '../../types/HomeParamsList';
-import { colors, ScreenWidth } from '../../utils/constants';
+import { baseURL, colors, ScreenWidth } from '../../utils/constants';
 import ProgressCircle from 'react-native-progress/Pie';
+import axios from 'axios';
+import { useAppSelector } from '../../redux-toolkit/hook';
 
 type CreateClassPropType = StackNavigationProp<
   HomeStackParamsList,
@@ -29,12 +31,26 @@ type Props = {
 
 const Screen: React.FC<Props> = ({ navigation }) => {
   const route = useRoute<HomeStackRouteProps<'Report'>>();
-  const studentName = route.params.name;
+  const [totalHomeWork, setTotalHw] = useState([]);
+  const currentStudent = route.params.item;
+  const studentName = currentStudent?.username ?? '';
+
+  const getTotalHomework = async () => {
+    const res = await axios.get(
+      `${baseURL}users/${currentStudent.user_id}/homework`,
+    );
+    setTotalHw(res.data);
+  };
+
+  useEffect(() => {
+    getTotalHomework();
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <Header
         navigation={navigation}
-        title={`${studentName}'s report`}
+        title={`Summary of ${studentName}`}
         isBackable={true}
       />
       <View style={styles.body}>
@@ -43,17 +59,53 @@ const Screen: React.FC<Props> = ({ navigation }) => {
           color={colors.completed}
           textStyle={'white'}
           size={ScreenWidth / 2}
-          progress={0.6}
+          progress={
+            totalHomeWork.length > 0
+              ? parseFloat(
+                  (
+                    totalHomeWork.filter(i => i.is_done === 'true').length /
+                    totalHomeWork.length
+                  ).toFixed(2),
+                )
+              : 0
+          }
         />
       </View>
       <View style={styles.percentageBlock}>
         <View style={styles.percentageRow}>
+          <Text style={{ fontWeight: 'bold', fontSize: 22, color: 'black' }}>
+            Total homework
+          </Text>
+          <Text style={{ fontWeight: 'bold', fontSize: 22, color: 'black' }}>
+            {totalHomeWork.length}
+          </Text>
+        </View>
+        <View style={styles.percentageRow}>
           <Text style={styles.textCompleted}>Work completed</Text>
-          <Text style={styles.textCompleted}>60%</Text>
+          <Text style={styles.textCompleted}>
+            {totalHomeWork.length > 0
+              ? Math.floor(
+                  (totalHomeWork.filter(i => i.is_done === 'true').length /
+                    totalHomeWork.length) *
+                    100,
+                )
+              : 0}
+            %
+          </Text>
         </View>
         <View style={styles.percentageRow}>
           <Text style={styles.textNotCompleted}>Work not completed</Text>
-          <Text style={styles.textNotCompleted}>40%</Text>
+          <Text style={styles.textNotCompleted}>
+            {totalHomeWork.length > 0
+              ? 100 -
+                Math.floor(
+                  (totalHomeWork.filter(i => i.is_done === 'true').length /
+                    totalHomeWork.length) *
+                    100,
+                )
+              : 0}
+            %
+          </Text>
         </View>
       </View>
     </SafeAreaView>

@@ -2,7 +2,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StackNavigationProp } from '@react-navigation/stack';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Alert, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import {
+  ActivityIndicator,
+  Alert,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import {
   SafeAreaView,
   View,
@@ -27,9 +32,11 @@ type Props = {
 const Screen: React.FC<Props> = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
   const role = useAppSelector(state => state.role.role);
   const handleLogin = async () => {
+    setLoading(true);
     console.log(username, password);
     try {
       const res = await axios.post(
@@ -50,6 +57,8 @@ const Screen: React.FC<Props> = ({ navigation }) => {
       }
     } catch (err) {
       Alert.alert('ClassLink', JSON.stringify(err.response));
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -74,7 +83,11 @@ const Screen: React.FC<Props> = ({ navigation }) => {
           />
         </View>
         <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
-          <Text style={styles.loginText}>Login</Text>
+          {loading ? (
+            <ActivityIndicator size={20} color="black" />
+          ) : (
+            <Text style={styles.loginText}>Login</Text>
+          )}
         </TouchableOpacity>
       </SafeAreaView>
     </TouchableWithoutFeedback>

@@ -26,10 +26,10 @@ const Screen: React.FC<Props> = ({ navigation }) => {
   const [selectedGrade, setSelectedGrade] = useState<any>();
   const [classes, setClasses] = useState([]);
   const role = useAppSelector(state => state.role.role);
+  const userInfor = useAppSelector(state => state.user.info);
   const [loading, setLoading] = useState(true);
   const [loadingClass, setLoadingClass] = useState(true);
   const RootNavigation = useNavigation();
-  console.log('role', role);
 
   const getData = async () => {
     try {
@@ -65,8 +65,25 @@ const Screen: React.FC<Props> = ({ navigation }) => {
     }
   };
 
+  const getDataParent = async () => {
+    try {
+      const res = await axios.get(
+        `${baseURL}users/${userInfor.user_id}/classes`,
+      );
+      console.log(res.data);
+      setClasses(res.data);
+    } catch (err) {
+      Alert.alert('ClassLink', JSON.stringify(err.response));
+    } finally {
+      setLoadingClass(false);
+    }
+  };
+
   useEffect(() => {
     if (role === 'teacher') getData();
+    else {
+      getDataParent();
+    }
   }, []);
 
   useEffect(() => {
@@ -180,7 +197,58 @@ const Screen: React.FC<Props> = ({ navigation }) => {
         </ScrollView>
       ) : (
         <View>
-          <Text>Hi parent</Text>
+          <View style={styles.classContainer}>
+            {loadingClass ? (
+              <ActivityIndicator
+                size="large"
+                color="black"
+                style={{
+                  marginTop: 20,
+                }}
+              />
+            ) : (
+              <View>
+                {classes.length > 0 ? (
+                  classes.map(i => {
+                    return (
+                      <TouchableOpacity
+                        onPress={() =>
+                          RootNavigation.navigate('Main', {
+                            screen: 'ClassDetail',
+                            params: {
+                              item: i,
+                            },
+                          })
+                        }
+                        style={{
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          borderColor: colors.black,
+                          borderWidth: 0.5,
+                          borderRadius: 20,
+                          backgroundColor: colors.white,
+                          paddingVertical: 10,
+                          marginBottom: 20,
+                        }}
+                        key={i.id}>
+                        <Text style={{ fontWeight: 'bold', fontSize: 24 }}>
+                          {i.name}
+                        </Text>
+                      </TouchableOpacity>
+                    );
+                  })
+                ) : (
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      fontSize: 20,
+                    }}>
+                    No classes assigned!
+                  </Text>
+                )}
+              </View>
+            )}
+          </View>
         </View>
       )}
     </SafeAreaView>

@@ -25,6 +25,7 @@ type Props = {
 const EventDetail: React.FC<Props> = ({ navigation }) => {
   const route = useRoute<HomeStackRouteProps<'EventDetail'>>();
   const userInfor = useAppSelector(state => state.user.info);
+  // console.log(userInfor);
   const { item } = route.params;
   const [loadingComment, setLoadingComment] = useState(true);
   const [pending, setPending] = useState(false);

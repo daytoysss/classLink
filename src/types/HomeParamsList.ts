@@ -7,9 +7,9 @@ export type HomeStackParamsList = {
   Setting: undefined;
   CreateClass: undefined;
   ClassDetail: { item: any };
-  Homework: undefined;
+  Homework: { homework: any; student: any };
   CreateHomework: undefined;
-  Report: { name: string };
+  Report: { item: any };
 };
 
 export type HomeStackRouteProps<

@@ -11,6 +11,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { setUser } from '../redux-toolkit/userSlice';
 import { setLoginState } from '../redux-toolkit/authSlice';
 import axios from 'axios';
+import { baseURL } from '../utils/constants';
+import { setRole } from '../redux-toolkit/roleSlice';
 const RootStack = createStackNavigator<RootStackParamList>();
 
 export default function AppRoute() {
@@ -25,6 +27,8 @@ export default function AppRoute() {
         const userInfo = JSON.parse(data);
         axios.defaults.headers['Authorization'] =
           'Bearer ' + userInfo.access_token;
+        const role = await axios.get(baseURL + 'users/' + userInfo.user_id);
+        dispatch(setRole(role.data));
         dispatch(setUser(userInfo));
         dispatch(setLoginState(true));
         setFirstLoad(false);

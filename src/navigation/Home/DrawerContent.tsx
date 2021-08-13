@@ -5,11 +5,13 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useAppDispatch } from '../../redux-toolkit/hook';
 import { setLoginState } from '../../redux-toolkit/authSlice';
 import { DrawerActions, useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Screen: React.FC<any> = ({ navigation }) => {
   const dispatch = useAppDispatch();
   const RootNavigation = useNavigation();
   const handleLogout = async () => {
+    await AsyncStorage.getAllKeys().then(key => AsyncStorage.multiRemove(key));
     dispatch(setLoginState(false));
   };
 
