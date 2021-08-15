@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 24,
     color: colors.title,
+    fontFamily: 'sans-serif-condensed',
   },
   button: {
     position: 'absolute',
