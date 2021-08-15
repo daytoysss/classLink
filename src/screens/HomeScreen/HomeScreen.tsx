@@ -21,6 +21,7 @@ import Header from '../../components/Header';
 import { useAppSelector } from '../../redux-toolkit/hook';
 import { TabParams } from '../../types/TabParams';
 import { baseURL, colors } from '../../utils/constants';
+import Feather from 'react-native-vector-icons/Feather';
 
 type HomeStackProps = BottomTabNavigationProp<TabParams, 'Home'>;
 
@@ -80,7 +81,12 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header navigation={navigation} title="ClassLink" isBackable={false} />
+      <Header
+        navigation={navigation}
+        title="ClassLink"
+        isBackable={false}
+        rightButtonTitle="Log Out"
+      />
       {role === 'teacher' && (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View
@@ -133,7 +139,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
                 onPress={() => {
                   Keyboard.dismiss();
                 }}>
-                <Text>Add</Text>
+                {/* <Text>Add</Text> */}
               </TouchableOpacity>
               <TouchableOpacity onPress={handleCreatePost}>
                 <Text>Post</Text>
@@ -175,6 +181,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
                       borderRadius: 10,
                       padding: 20,
                       marginTop: 20,
+                      position: 'relative',
                     }}>
                     <Text style={{ fontSize: 24, fontWeight: 'bold' }}>
                       {item?.post_title}
@@ -188,6 +195,20 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
                       {new Date(item?.created_at).toDateString().slice(4, 10)}
                     </Text>
                     <Text>{item?.post_content}</Text>
+                    <TouchableOpacity
+                      style={{
+                        width: 30,
+                        height: 30,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        position: 'absolute',
+                        top: 10,
+                        right: 10,
+                        backgroundColor: 'red',
+                        borderRadius: 20,
+                      }}>
+                      <Feather name="trash-2" size={20} />
+                    </TouchableOpacity>
                   </TouchableOpacity>
                 );
               }}

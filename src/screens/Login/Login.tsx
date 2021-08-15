@@ -73,6 +73,7 @@ const Screen: React.FC<Props> = ({ navigation }) => {
             value={username}
             onChangeText={setUsername}
             style={styles.input}
+            placeholder="Username"
           />
           <Text style={styles.label}>Password</Text>
           <TextInput
@@ -80,6 +81,7 @@ const Screen: React.FC<Props> = ({ navigation }) => {
             secureTextEntry={true}
             onChangeText={setPassword}
             style={styles.input}
+            placeholder="Password"
           />
         </View>
         <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
@@ -97,7 +99,7 @@ const Screen: React.FC<Props> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
+    backgroundColor: colors.white,
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 50,
@@ -112,13 +114,16 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     alignSelf: 'flex-start',
+    marginTop: 20,
   },
   input: {
     borderColor: colors.black,
     borderWidth: 1,
+    borderRadius: 20,
     width: Dimensions.get('screen').width - 100,
     marginTop: 5,
     marginBottom: 10,
+    paddingLeft: 10,
   },
   loginBtn: {
     marginTop: 20,

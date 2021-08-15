@@ -3,4 +3,5 @@ export type TabParams = {
   Classroom: undefined;
   Booking: undefined;
   Summary: undefined;
+  Message: undefined;
 };

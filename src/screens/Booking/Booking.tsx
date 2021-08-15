@@ -83,7 +83,12 @@ const Booking: React.FC<Props> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header navigation={navigation} title="Booking" isBackable={false} />
+      <Header
+        navigation={navigation}
+        title="Booking"
+        isBackable={false}
+        rightButtonTitle="My Meeting"
+      />
       <ScrollView
         contentContainerStyle={styles.body}
         showsVerticalScrollIndicator={false}>

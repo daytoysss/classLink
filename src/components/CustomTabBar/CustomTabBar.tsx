@@ -8,7 +8,7 @@ const CustomTabbar = ({ state, descriptors, navigation }) => {
       style={{
         flex: 1,
         flexDirection: 'row',
-        height: 100,
+        height: 80,
         position: 'absolute',
         bottom: 0,
         left: 0,
@@ -25,6 +25,10 @@ const CustomTabbar = ({ state, descriptors, navigation }) => {
           case 'Classroom':
             backgroundColor = colors.classroomBgc;
             iconSrc = require('../../assets/classroom.png');
+            break;
+          case 'Message':
+            backgroundColor = colors.messageBgc;
+            iconSrc = require('../../assets/message.png');
             break;
           case 'Booking':
             backgroundColor = colors.bookingBgc;
