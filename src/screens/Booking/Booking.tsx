@@ -215,6 +215,7 @@ const styles = StyleSheet.create({
     color: colors.title,
     fontSize: 20,
     fontWeight: 'bold',
+    fontFamily: 'sans-serif-medium'
   },
   subLabel: {
     fontSize: 16,

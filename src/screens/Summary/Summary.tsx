@@ -97,6 +97,7 @@ const Summary: React.FC<Props> = ({ navigation }) => {
               fontWeight: 'bold',
               alignSelf: 'center',
               marginHorizontal: 20,
+              fontFamily: 'sans-serif-medium',
             }}>
             All students (click to view summary)
           </Text>

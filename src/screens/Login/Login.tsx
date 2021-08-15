@@ -107,10 +107,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 50,
     color: colors.title,
+    fontFamily: 'sans-serif-condensed',
   },
   label: {
     fontWeight: 'bold',
     fontSize: 24,
+    fontFamily: 'sans-serif-medium',
   },
   inputContainer: {
     alignSelf: 'flex-start',

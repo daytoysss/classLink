@@ -192,7 +192,10 @@ const Screen: React.FC<Props> = ({ navigation }) => {
               })
             }>
             <Text style={[styles.text, { fontSize: 40 }]}>+</Text>
-            <Text style={[styles.text, { fontSize: 30 }]}>New class</Text>
+            <Text
+              style={[styles.text, { fontSize: 30, fontFamily: 'sans-serif' }]}>
+              New class
+            </Text>
           </TouchableOpacity>
         </ScrollView>
       ) : (
@@ -281,6 +284,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     alignSelf: 'center',
     height: 50,
+    fontFamily: 'sans-serif-medium',
   },
   classContainer: {
     marginHorizontal: 20,

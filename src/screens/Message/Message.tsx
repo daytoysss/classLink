@@ -243,7 +243,7 @@ const Message: React.FC<Props> = ({ navigation }) => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Text>Create new message</Text>
+          <Text style={{ fontFamily: 'sans-serif' }}>Create new message</Text>
         </TouchableOpacity>
       </SafeAreaView>
     </>
