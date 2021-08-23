@@ -15,6 +15,7 @@ const CustomTabbar = ({ state, descriptors, navigation }) => {
         right: 0,
       }}>
       {state.routes.map((route: any, index: number) => {
+        console.log(state.index === index);
         let backgroundColor: string = '';
         let iconSrc = undefined;
         switch (route.name) {
@@ -56,9 +57,12 @@ const CustomTabbar = ({ state, descriptors, navigation }) => {
                 flex: 2,
                 width: 50,
                 height: 100,
+                opacity: state.index === index ? 1 : 0.3,
               }}
             />
-            <Text style={{ flex: 1 }}>{route.name}</Text>
+            <Text style={{ flex: 1, opacity: state.index === index ? 1 : 0.3 }}>
+              {route.name}
+            </Text>
           </TouchableOpacity>
         );
       })}

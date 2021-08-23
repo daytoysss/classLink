@@ -13,11 +13,11 @@ const BottomTab = createBottomTabNavigator<TabParams>();
 export default function Home() {
   return (
     <BottomTab.Navigator tabBar={props => <CustomTabbar {...(props as any)} />}>
-      <BottomTab.Screen name="Home" component={HomeScreen} />
       <BottomTab.Screen name="Classroom" component={Classroom} />
-      <BottomTab.Screen name="Message" component={Message} />
       <BottomTab.Screen name="Booking" component={Booking} />
       <BottomTab.Screen name="Summary" component={Summary} />
+      <BottomTab.Screen name="Home" component={HomeScreen} />
+      <BottomTab.Screen name="Message" component={Message} />
     </BottomTab.Navigator>
   );
 }
