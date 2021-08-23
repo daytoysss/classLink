@@ -316,6 +316,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
               borderRadius: 10,
               borderWidth: 0.5,
               margin: 20,
+              marginBottom: 10,
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
@@ -328,14 +329,14 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
       )}
       <Text
         style={{
-          fontSize: 24,
-          fontWeight: 'bold',
+          fontSize: 22,
+          // fontWeight: 'bold',
           alignSelf: 'center',
-          marginVertical: 10,
+          // marginVertical: 10,
           height: 40,
           fontFamily: 'sans-serif-medium',
         }}>
-        Incoming events
+        Incoming Events
       </Text>
       {loading ? (
         <ActivityIndicator size="large" color="black" />
@@ -359,7 +360,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
                       backgroundColor: colors.white,
                       borderRadius: 10,
                       padding: 20,
-                      marginTop: 20,
+                      marginBottom: 20,
                       position: 'relative',
                     }}>
                     <Text style={{ fontSize: 24, fontWeight: 'bold' }}>

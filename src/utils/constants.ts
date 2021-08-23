@@ -6,7 +6,7 @@ export const colors = {
   white: '#fff',
   black: '#000',
   buttonNewClass: '#fb7299',
-  homeBgc: '#ffe195',
+  homeBgc: '#CC0066',
   classroomBgc: '#d589eb',
   bookingBgc: '#d4e784',
   messageBgc: '#7de7eb',
