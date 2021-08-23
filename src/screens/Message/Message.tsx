@@ -81,13 +81,28 @@ const Message: React.FC<Props> = ({ navigation }) => {
   };
 
   const getTotalStudent = async () => {
-    const res = await axios.get(`${baseURL}users`);
+    const res = await axios.get(`${baseURL}users/parent/allParents`);
     console.log(res);
     setTotalStudent([
       {
         username: 'Select an user to chat',
         id: 999,
         user_id: 999,
+        fullname: 'Select an user to chat',
+      },
+      ...res.data,
+    ]);
+  };
+
+  const getTotalTeacher = async () => {
+    const res = await axios.get(`${baseURL}users/teacher/allTeachers`);
+    console.log(res);
+    setTotalStudent([
+      {
+        username: 'Select an user to chat',
+        id: 999,
+        user_id: 999,
+        fullname: 'Select an user to chat',
       },
       ...res.data,
     ]);
@@ -96,7 +111,16 @@ const Message: React.FC<Props> = ({ navigation }) => {
   useEffect(() => {
     getDataMessage();
     if (role === 'teacher') getTotalStudent();
+    if (role === 'parent') getTotalTeacher();
   }, []);
+
+  useEffect(() => {
+    const sub = navigation.addListener(
+      'focus',
+      async () => await getDataMessage(),
+    );
+    return sub;
+  }, [navigation]);
 
   return (
     <>
@@ -144,13 +168,13 @@ const Message: React.FC<Props> = ({ navigation }) => {
                         <Picker.Item
                           enabled={false}
                           key={i.user_id}
-                          label={i.username}
+                          label={i.fullname}
                           value={i.username}
                         />
                       ) : (
                         <Picker.Item
                           key={i.user_id}
-                          label={i.username}
+                          label={i.fullname}
                           value={i.username}
                         />
                       ),
@@ -221,7 +245,7 @@ const Message: React.FC<Props> = ({ navigation }) => {
                     backgroundColor: colors.white,
                     borderRadius: 20,
                   }}>
-                  <Text>{i.username}</Text>
+                  <Text>{i.fullname}</Text>
                 </TouchableOpacity>
               );
             })}

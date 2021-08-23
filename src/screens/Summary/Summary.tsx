@@ -134,7 +134,7 @@ const Summary: React.FC<Props> = ({ navigation }) => {
                   borderRadius: 500,
                 }}>
                 <AntDesign name="user" size={30} />
-                <Text>{item.username}</Text>
+                <Text>{item.fullname}</Text>
               </TouchableOpacity>
             )}
           />
@@ -179,7 +179,7 @@ const Summary: React.FC<Props> = ({ navigation }) => {
                   fontSize: 24,
                   fontWeight: 'bold',
                 }}>
-                {userInfor.username}
+                {userInfor.fullname}
               </Text>
             </View>
           </View>

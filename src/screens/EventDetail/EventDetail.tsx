@@ -11,6 +11,7 @@ import {
   ScrollView,
   ActivityIndicator,
   TextInput,
+  Image,
 } from 'react-native';
 import Header from '../../components/Header';
 import { HomeStackRouteProps } from '../../types/HomeParamsList';
@@ -27,6 +28,7 @@ const EventDetail: React.FC<Props> = ({ navigation }) => {
   const userInfor = useAppSelector(state => state.user.info);
   // console.log(userInfor);
   const { item } = route.params;
+  console.log(item);
   const [loadingComment, setLoadingComment] = useState(true);
   const [pending, setPending] = useState(false);
   const [comments, setComments] = useState([]);
@@ -119,6 +121,19 @@ const EventDetail: React.FC<Props> = ({ navigation }) => {
               padding: 20,
             }}>
             <Text>{item?.post_content ?? ''}</Text>
+            {!!item.url_img && (
+              <Image
+                style={{
+                  height: ScreenWidth - 120,
+                  width: ScreenWidth - 80,
+                  marginVertical: 20,
+                }}
+                resizeMode="cover"
+                source={{
+                  uri: item.url_img,
+                }}
+              />
+            )}
           </View>
         </View>
         <View

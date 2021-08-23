@@ -72,6 +72,7 @@ const Booking: React.FC<Props> = ({ navigation }) => {
         id: 999,
         user_id: 999,
         username: 'Please select a parent',
+        fullname: 'Please select a parent',
       },
       ...res.data,
     ]);
@@ -109,13 +110,13 @@ const Booking: React.FC<Props> = ({ navigation }) => {
                       <Picker.Item
                         enabled={false}
                         key={i.user_id}
-                        label={i.username}
+                        label={i.fullname}
                         value={i.username}
                       />
                     ) : (
                       <Picker.Item
                         key={i.user_id}
-                        label={i.username}
+                        label={i.fullname}
                         value={i.username}
                       />
                     ),
@@ -215,7 +216,7 @@ const styles = StyleSheet.create({
     color: colors.title,
     fontSize: 20,
     fontWeight: 'bold',
-    fontFamily: 'sans-serif-medium'
+    fontFamily: 'sans-serif-medium',
   },
   subLabel: {
     fontSize: 16,

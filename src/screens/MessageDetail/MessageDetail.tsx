@@ -76,7 +76,7 @@ const Message: React.FC<Props> = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <Header
         navigation={navigation}
-        title={item?.username ?? ''}
+        title={item?.fullname ?? ''}
         isBackable={true}
       />
       {loading ? (
@@ -90,16 +90,46 @@ const Message: React.FC<Props> = ({ navigation }) => {
             allMessages.map(i => {
               return (
                 <View
-                  style={{
-                    flexDirection: 'row',
-                    marginHorizontal: 20,
-                    marginTop: 10,
-                  }}>
-                  <Text
+                  style={[
+                    {
+                      flexDirection: 'row',
+                      marginTop: 10,
+                      alignItems: 'center',
+                    },
+                    userInfor.user_id === i.from_id
+                      ? {
+                          marginLeft: '40%',
+                          marginRight: 20,
+                          justifyContent: 'flex-end',
+                        }
+                      : {
+                          marginRight: '40%',
+                          marginLeft: 20,
+                          justifyContent: 'flex-start',
+                        },
+                  ]}>
+                  {/* <Text
                     style={{ marginRight: 20, fontWeight: 'bold', width: 100 }}>
                     {i.from_username}:
+                  </Text> */}
+                  <Text
+                    style={[
+                      {
+                        borderRadius: 20,
+                        paddingVertical: 10,
+                        paddingHorizontal: 20,
+                      },
+                      userInfor.user_id === i.from_id
+                        ? {
+                            backgroundColor: '#3d9ef8',
+                            color: 'white',
+                          }
+                        : {
+                            backgroundColor: '#e8e4e4',
+                          },
+                    ]}>
+                    {i.message_content}
                   </Text>
-                  <Text>{i.message_content}</Text>
                 </View>
               );
             })

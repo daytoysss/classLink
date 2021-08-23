@@ -70,11 +70,40 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
       }
     }
   };
+  const handleDeletePost = async item => {
+    Alert.alert(
+      'ClassLink',
+      `Are you sure to delete "${item.post_title}"? This action can not be undone.`,
+      [
+        {
+          text: 'YES',
+          onPress: async () => {
+            console.log(item);
+            try {
+              const res = await axios.delete(baseURL + 'posts/' + item.post_id);
+              if (res.data.status !== 'success') {
+                Alert.alert('ClassLink', res.data.message);
+              } else {
+                setLoading(true);
+                await getData();
+              }
+            } catch (err) {
+              Alert.alert('ClassLink', JSON.stringify(err.response));
+            }
+          },
+        },
+        {
+          text: 'Cancel',
+          onPress: () => {},
+        },
+      ],
+    );
+  };
 
   const getData = async () => {
     try {
       const res = await axios.get(baseURL + 'posts');
-      // console.log(res.data);
+      console.log(res.data);
       setPosts(res.data);
     } catch (err) {
       console.log(err);
@@ -237,7 +266,8 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
                             },
                           },
                         );
-                        setImgLink(resp.data.url);
+                        console.log('response url', resp);
+                        setImgLink(resp.data.secure_url);
                         setLoadingImg(false);
                       },
                     );
@@ -359,6 +389,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
                       />
                     )}
                     <TouchableOpacity
+                      onPress={() => handleDeletePost(item)}
                       style={{
                         width: 30,
                         height: 30,
@@ -370,7 +401,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
                         backgroundColor: colors.homeBgc,
                         borderRadius: 20,
                       }}>
-                      <Entypo name="dots-three-horizontal" size={20} />
+                      <Entypo name="trash" size={20} />
                     </TouchableOpacity>
                   </TouchableOpacity>
                 );

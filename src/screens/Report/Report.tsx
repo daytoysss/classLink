@@ -33,7 +33,7 @@ const Screen: React.FC<Props> = ({ navigation }) => {
   const route = useRoute<HomeStackRouteProps<'Report'>>();
   const [totalHomeWork, setTotalHw] = useState([]);
   const currentStudent = route.params.item;
-  const studentName = currentStudent?.username ?? '';
+  const studentName = currentStudent?.fullname ?? '';
 
   const getTotalHomework = async () => {
     const res = await axios.get(

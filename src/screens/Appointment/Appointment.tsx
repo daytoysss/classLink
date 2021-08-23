@@ -28,7 +28,7 @@ const MeetItem = props => {
     <View style={styles.cardContainer} key={item.meeting_id}>
       {role === 'teacher' ? (
         <Text style={styles.cardText}>
-          Meeting with {item.username}' s parents
+          Meeting with {item.fullname}' s parents
         </Text>
       ) : (
         <Text style={styles.cardText}>Meeting with teacher</Text>
@@ -44,7 +44,20 @@ const MeetItem = props => {
         {`${new Date(endDate).getHours()}:${new Date(endDate).getMinutes()}`}
       </Text>
       <Text style={styles.cardText}>Message: {item.message}</Text>
-      <Text style={styles.cardText}>Status: {status}</Text>
+      <View
+        style={[
+          styles.cardText,
+          { flexDirection: 'row', alignItems: 'center' },
+        ]}>
+        <Text style={{ fontSize: 24 }}>Status:{'  '}</Text>
+        <Text
+          style={[
+            { fontSize: 24 },
+            status === 'Meeting' ? { color: 'yellow' } : { color: 'green' },
+          ]}>
+          {status}
+        </Text>
+      </View>
     </View>
   );
 };
@@ -68,7 +81,6 @@ const Appointment: React.FC<Props> = ({ navigation }) => {
           role === 'teacher' ? '' : userInfo.user_id + '/allMeetings'
         }`,
       );
-      console.log(res.data);
       setMeetList(res.data);
     } catch (err) {
       console.log(err);
