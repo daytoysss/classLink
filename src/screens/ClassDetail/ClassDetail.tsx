@@ -468,19 +468,41 @@ const Screen: React.FC<Props> = ({ navigation }) => {
               {student.length === 0 ? (
                 <Text>No student!</Text>
               ) : (
-                student.map(i => {
-                  return (
-                    <View
-                      key={i.user_id}
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                      }}>
-                      <Text style={{ fontSize: 20 }}>Student's name: </Text>
-                      <Text style={{ fontSize: 20 }}>{i.username}</Text>
-                    </View>
-                  );
-                })
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    alignItems: 'flex-start',
+                    flex: 1,
+                  }}>
+                  {student.map(i => {
+                    return (
+                      <View
+                        key={i.user_id}
+                        style={{
+                          width: '50%',
+                          marginVertical: 10,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                        <View
+                          style={{
+                            width: 100,
+                            height: 100,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            backgroundColor: colors.white,
+                            borderColor: colors.black,
+                            borderWidth: 0.5,
+                            borderRadius: 500,
+                          }}>
+                          <AntDesign name="user" size={30} />
+                          <Text>{i.username}</Text>
+                        </View>
+                      </View>
+                    );
+                  })}
+                </View>
               )}
             </View>
             <TouchableOpacity

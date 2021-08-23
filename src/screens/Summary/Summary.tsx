@@ -1,8 +1,6 @@
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
-import { DrawerActions, useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { ActivityIndicator, Image } from 'react-native';
 import {
   FlatList,
   SafeAreaView,
@@ -13,7 +11,6 @@ import {
 } from 'react-native';
 import Header from '../../components/Header';
 import { useAppSelector } from '../../redux-toolkit/hook';
-import { HomeStackParamsList } from '../../types/HomeParamsList';
 import { TabParams } from '../../types/TabParams';
 import { baseURL, colors, ScreenWidth } from '../../utils/constants';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -113,29 +110,38 @@ const Summary: React.FC<Props> = ({ navigation }) => {
             keyExtractor={item => item?.user_id}
             numColumns={2}
             renderItem={({ item }) => (
-              <TouchableOpacity
-                onPress={() =>
-                  RootNavigation.navigate('Main', {
-                    screen: 'Report',
-                    params: {
-                      item,
-                    },
-                  })
-                }
+              <View
                 style={{
                   flex: 1,
                   marginHorizontal: 10,
                   marginBottom: 50,
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: colors.white,
-                  borderColor: colors.black,
-                  borderWidth: 0.5,
-                  borderRadius: 500,
                 }}>
-                <AntDesign name="user" size={30} />
-                <Text>{item.fullname}</Text>
-              </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    RootNavigation.navigate('Main', {
+                      screen: 'Report',
+                      params: {
+                        item,
+                      },
+                    })
+                  }
+                  style={{
+                    flex: 1,
+                    width: 100,
+                    height: 100,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: colors.white,
+                    borderColor: colors.black,
+                    borderWidth: 0.5,
+                    borderRadius: 500,
+                  }}>
+                  <AntDesign name="user" size={30} />
+                  <Text>{item.fullname}</Text>
+                </TouchableOpacity>
+              </View>
             )}
           />
         </>

@@ -1,13 +1,13 @@
 import { Dimensions } from 'react-native';
 
 export const colors = {
-  background: '#bcdcf7',
+  background: '#edcef7',
   title: '#cc0065',
   white: '#fff',
   black: '#000',
-  buttonNewClass: '#fb7299',
+  buttonNewClass: '#e46f8a',
   homeBgc: '#CC0066',
-  classroomBgc: '#d589eb',
+  classroomBgc: '#edcef7',
   bookingBgc: '#d4e784',
   messageBgc: '#7de7eb',
   summaryBgc: '#ff7979',
