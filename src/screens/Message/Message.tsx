@@ -280,7 +280,8 @@ const Message: React.FC<Props> = ({ navigation }) => {
                     />
                   </View>
                   <Text style={{ fontSize: 24, color: colors.homeBgc }}>
-                    {i.fullname}'s Parent
+                    {i.fullname}
+                    {role === 'teacher' ? `'s Parent` : ''}
                   </Text>
                 </TouchableOpacity>
               );
