@@ -65,8 +65,7 @@ const Screen: React.FC<Props> = ({ navigation }) => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={styles.container}>
-        <Text style={styles.title}>Welcome to</Text>
-        <Text style={styles.title}>ClassLink</Text>
+        <Text style={styles.title}>Class Link</Text>
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Username</Text>
           <TextInput
@@ -88,7 +87,7 @@ const Screen: React.FC<Props> = ({ navigation }) => {
           {loading ? (
             <ActivityIndicator size={20} color="black" />
           ) : (
-            <Text style={styles.loginText}>Login</Text>
+            <Text style={styles.loginText}>Log In</Text>
           )}
         </TouchableOpacity>
       </SafeAreaView>
@@ -106,13 +105,16 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 50,
-    color: colors.title,
+    color: colors.homeBgc,
     fontFamily: 'sans-serif-condensed',
+    fontWeight: 'bold',
+    marginBottom: 50,
   },
   label: {
     fontWeight: 'bold',
     fontSize: 24,
     fontFamily: 'sans-serif-medium',
+    color: colors.homeBgc,
   },
   inputContainer: {
     alignSelf: 'flex-start',
@@ -131,14 +133,16 @@ const styles = StyleSheet.create({
     marginTop: 20,
     alignSelf: 'flex-end',
     height: 50,
-    backgroundColor: colors.buttonLoginBgc,
+    backgroundColor: colors.homeBgc,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10,
+    borderRadius: 100,
     paddingHorizontal: 20,
   },
   loginText: {
     color: colors.white,
+    fontWeight: 'bold',
+    fontSize: 24,
   },
 });
 
