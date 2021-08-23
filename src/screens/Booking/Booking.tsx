@@ -4,23 +4,26 @@ import React, { useState } from 'react';
 import {
   Alert,
   Dimensions,
+  Keyboard,
+  Modal,
   SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import Header from '../../components/Header';
 import { TabParams } from '../../types/TabParams';
-import { baseURL, colors } from '../../utils/constants';
+import { baseURL, colors, ScreenWidth } from '../../utils/constants';
 import { Picker } from '@react-native-picker/picker';
 import DatePicker from 'react-native-date-picker';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect } from 'react';
 import { useAppSelector } from '../../redux-toolkit/hook';
 import axios from 'axios';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 type HomeStackProps = BottomTabNavigationProp<TabParams, 'Home'>;
 
@@ -37,6 +40,7 @@ const Booking: React.FC<Props> = ({ navigation }) => {
   const [minEndDate, setMinEndDate] = useState(new Date());
   const [allParent, setAllParent] = useState([]);
   const [message, setMessage] = useState('');
+  const [showCreateMeeting, setShowCreateMeeting] = useState(false);
 
   useEffect(() => {
     let temp = new Date(startDate.getTime());
@@ -71,8 +75,8 @@ const Booking: React.FC<Props> = ({ navigation }) => {
       {
         id: 999,
         user_id: 999,
-        username: 'Please select a parent',
-        fullname: 'Please select a parent',
+        username: '- Please select a parent -',
+        fullname: '- Please select a parent -',
       },
       ...res.data,
     ]);
@@ -82,6 +86,101 @@ const Booking: React.FC<Props> = ({ navigation }) => {
     if (role === 'teacher') getParents();
   }, []);
 
+  const renderCreatePostModal = () => {
+    return (
+      <Modal
+        visible={showCreateMeeting}
+        transparent={true}
+        animationType="fade">
+        <TouchableWithoutFeedback
+          onPress={Keyboard.dismiss}
+          style={{
+            flex: 1,
+          }}>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: 'rgba(0,0,0,0.8)',
+            }}>
+            <View
+              style={{
+                // height: 400,
+                width: ScreenWidth - 40,
+                backgroundColor: colors.white,
+                borderColor: colors.black,
+                borderRadius: 20,
+                borderWidth: 0.5,
+                margin: 10,
+              }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  marginHorizontal: 20,
+                  height: 50,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  position: 'relative',
+                }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    setShowCreateMeeting(false);
+                  }}
+                  style={{
+                    position: 'absolute',
+                    left: 5,
+                    top: 15,
+                  }}>
+                  <AntDesign name="close" size={20} />
+                </TouchableOpacity>
+                <Text style={{ fontSize: 20, fontFamily: 'sans-serif-medium' }}>
+                  Appointment Preview
+                </Text>
+              </View>
+              <View
+                style={{
+                  marginHorizontal: 20,
+                  marginVertical: 30,
+                  justifyContent: 'space-around',
+                }}>
+                <Text>
+                  Start Time: {new Date(startDate).toDateString().slice(4, 10)}{' '}
+                  at{' '}
+                  {`${new Date(startDate).getHours()}:${new Date(
+                    startDate,
+                  ).getMinutes()}`}
+                </Text>
+                <Text>
+                  End Time: {new Date(endDate).toDateString().slice(4, 10)} at{' '}
+                  {`${new Date(endDate).getHours()}:${new Date(
+                    endDate,
+                  ).getMinutes()}`}
+                </Text>
+                <Text>Message: {message}</Text>
+              </View>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: colors.homeBgc,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  paddingHorizontal: 10,
+                  paddingVertical: 8,
+                  borderRadius: 10,
+                  flexDirection: 'row',
+                  marginHorizontal: '30%',
+                  marginBottom: 20,
+                }}
+                onPress={handleBooking}>
+                <Text style={{ color: colors.white }}>Confirm</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
+    );
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <Header
@@ -90,12 +189,13 @@ const Booking: React.FC<Props> = ({ navigation }) => {
         isBackable={false}
         rightButtonTitle="My Meeting"
       />
+      {renderCreatePostModal()}
       <ScrollView
         contentContainerStyle={styles.body}
         showsVerticalScrollIndicator={false}>
         {role === 'teacher' && (
           <View style={styles.section}>
-            <Text style={styles.label}>Select a parent</Text>
+            <Text style={styles.label}>Select a Parent</Text>
             <View style={styles.picker}>
               {allParent.length > 0 && (
                 <Picker
@@ -176,8 +276,10 @@ const Booking: React.FC<Props> = ({ navigation }) => {
           }}
         />
         <View style={styles.section}>
-          <TouchableOpacity onPress={handleBooking} style={styles.btnCreate}>
-            <Text>Create appointment</Text>
+          <TouchableOpacity
+            onPress={() => setShowCreateMeeting(true)}
+            style={styles.btnCreate}>
+            <Text style={{ color: colors.white }}>Create appointment</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -229,7 +331,7 @@ const styles = StyleSheet.create({
   },
   btnCreate: {
     marginTop: 30,
-    backgroundColor: '#169bd5',
+    backgroundColor: colors.buttonNewClass,
     paddingVertical: 10,
     borderRadius: 10,
     justifyContent: 'center',
