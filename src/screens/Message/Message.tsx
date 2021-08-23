@@ -222,7 +222,23 @@ const Message: React.FC<Props> = ({ navigation }) => {
           <ScrollView
             contentContainerStyle={{
               flexGrow: 1,
+              paddingBottom: 120,
             }}>
+            <TouchableOpacity
+              onPress={() => setShowCreateChat(true)}
+              style={{
+                height: 50,
+                width: 50,
+                alignSelf: 'flex-end',
+                borderColor: colors.black,
+                borderWidth: 1,
+                backgroundColor: colors.white,
+                marginHorizontal: 20,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <AntDesign name="wechat" size={30} />
+            </TouchableOpacity>
             {historyUser.map(i => {
               return (
                 <TouchableOpacity
@@ -236,39 +252,41 @@ const Message: React.FC<Props> = ({ navigation }) => {
                   }
                   key={i.id}
                   style={{
-                    marginHorizontal: 30,
+                    // marginHorizontal: 30,
                     borderColor: colors.black,
                     borderWidth: 1,
                     marginVertical: 10,
                     paddingVertical: 10,
                     paddingHorizontal: 20,
                     backgroundColor: colors.white,
-                    borderRadius: 20,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    // borderRadius: 20,
                   }}>
-                  <Text>{i.fullname}</Text>
+                  <View
+                    style={{
+                      height: 50,
+                      width: 50,
+                      borderRadius: 50,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      backgroundColor: '#cce5eb',
+                      marginRight: 20,
+                    }}>
+                    <AntDesign
+                      name="user"
+                      size={30}
+                      style={{ color: colors.white }}
+                    />
+                  </View>
+                  <Text style={{ fontSize: 24, color: colors.homeBgc }}>
+                    {i.fullname}'s Parent
+                  </Text>
                 </TouchableOpacity>
               );
             })}
           </ScrollView>
         )}
-        <TouchableOpacity
-          onPress={() => setShowCreateChat(true)}
-          style={{
-            height: 50,
-            marginHorizontal: 30,
-            borderColor: colors.black,
-            borderWidth: 1,
-            marginVertical: 10,
-            paddingVertical: 10,
-            paddingHorizontal: 20,
-            backgroundColor: colors.buttonNewClass,
-            borderRadius: 20,
-            marginBottom: 120,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <Text style={{ fontFamily: 'sans-serif' }}>Create new message</Text>
-        </TouchableOpacity>
       </SafeAreaView>
     </>
   );

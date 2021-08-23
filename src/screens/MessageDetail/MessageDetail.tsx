@@ -121,11 +121,11 @@ const Message: React.FC<Props> = ({ navigation }) => {
                       },
                       userInfor.user_id === i.from_id
                         ? {
-                            backgroundColor: '#3d9ef8',
+                            backgroundColor: '#0094b7',
                             color: 'white',
                           }
                         : {
-                            backgroundColor: '#e8e4e4',
+                            backgroundColor: '#eca586',
                           },
                     ]}>
                     {i.message_content}
@@ -140,7 +140,7 @@ const Message: React.FC<Props> = ({ navigation }) => {
       )}
       <View
         style={{
-          backgroundColor: colors.classroomBgc,
+          backgroundColor: colors.homeBgc,
           borderWidth: 0.5,
           borderColor: colors.black,
           flexDirection: 'row',
@@ -150,7 +150,7 @@ const Message: React.FC<Props> = ({ navigation }) => {
         <TextInput
           value={messageContent}
           onChangeText={setMessageContent}
-          placeholder="Type something..."
+          placeholder="Write a message..."
           style={{
             backgroundColor: colors.white,
             width: ScreenWidth - 100,
