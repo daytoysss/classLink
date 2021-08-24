@@ -13,6 +13,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   TextInput,
+  Image,
 } from 'react-native';
 import Header from '../../components/Header';
 import { useAppSelector } from '../../redux-toolkit/hook';
@@ -237,7 +238,13 @@ const Message: React.FC<Props> = ({ navigation }) => {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              <AntDesign name="wechat" size={30} />
+              <Image
+                source={require('../../assets/new-message.png')}
+                style={{
+                  width: 30,
+                  height: 30,
+                }}
+              />
             </TouchableOpacity>
             {historyUser.map(i => {
               return (
