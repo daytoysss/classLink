@@ -20,24 +20,44 @@ const CustomTabbar = ({ state, descriptors, navigation }) => {
         let iconSrc = undefined;
         switch (route.name) {
           case 'Home':
-            backgroundColor = colors.homeBgc;
-            iconSrc = require('../../assets/home.png');
+            backgroundColor =
+              state.index === index ? colors.homeBgc : colors.white;
+            iconSrc =
+              state.index === index
+                ? require('../../assets/home.png')
+                : require('../../assets/home-white.png');
             break;
           case 'Classroom':
-            backgroundColor = colors.classroomBgc;
-            iconSrc = require('../../assets/classroom.png');
+            backgroundColor =
+              state.index === index ? colors.classroomBgc : colors.white;
+            iconSrc =
+              state.index === index
+                ? require('../../assets/classroom.png')
+                : require('../../assets/classroom-white.png');
             break;
           case 'Message':
-            backgroundColor = colors.messageBgc;
-            iconSrc = require('../../assets/message.png');
+            backgroundColor =
+              state.index === index ? colors.messageBgc : colors.white;
+            iconSrc =
+              state.index === index
+                ? require('../../assets/message.png')
+                : require('../../assets/message-white.png');
             break;
           case 'Booking':
-            backgroundColor = colors.bookingBgc;
-            iconSrc = require('../../assets/booking.png');
+            backgroundColor =
+              state.index === index ? colors.bookingBgc : colors.white;
+            iconSrc =
+              state.index === index
+                ? require('../../assets/booking.png')
+                : require('../../assets/booking-white.png');
             break;
           case 'Summary':
-            backgroundColor = colors.summaryBgc;
-            iconSrc = require('../../assets/summary.png');
+            backgroundColor =
+              state.index === index ? colors.summaryBgc : colors.white;
+            iconSrc =
+              state.index === index
+                ? require('../../assets/summary.png')
+                : require('../../assets/summary-white.png');
             break;
         }
         return (
@@ -49,6 +69,9 @@ const CustomTabbar = ({ state, descriptors, navigation }) => {
               justifyContent: 'center',
               alignItems: 'center',
               backgroundColor: backgroundColor,
+              borderWidth: 1,
+              borderColor: colors.black,
+              borderRadius: 2,
             }}>
             <Image
               source={iconSrc}
@@ -60,7 +83,7 @@ const CustomTabbar = ({ state, descriptors, navigation }) => {
                 opacity: state.index === index ? 1 : 0.3,
               }}
             />
-            <Text style={{ flex: 1, opacity: state.index === index ? 1 : 0.3 }}>
+            <Text style={{ flex: 1, opacity: state.index === index ? 1 : 0.8 }}>
               {route.name}
             </Text>
           </TouchableOpacity>
