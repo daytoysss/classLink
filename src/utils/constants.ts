@@ -9,7 +9,7 @@ export const colors = {
   homeBgc: '#CC0066',
   classroomBgc: '#edcef7',
   bookingBgc: '#d4e784',
-  messageBgc: '#7de7eb',
+  messageBgc: '#C6EFF0',
   summaryBgc: '#ff7979',
   buttonLoginBgc: '#6699cc',
   pinkBgc: '#ff94b1',
